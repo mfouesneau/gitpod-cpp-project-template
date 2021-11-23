@@ -1,4 +1,7 @@
-// The "RQuantity" class is the prototype template container class, that just holds a double value.
+/**
+ * @file rquantities.hpp
+ * @brief "RQuantity" class is the prototype template container class, that just holds a double value.
+ */
 #include <ratio>
 #include <ostream>
 #include <string.h>
@@ -100,7 +103,7 @@ QUANTITY_TYPE(0, 0, 0, 2, 0, 0, 0, 0, AngleArea);
 // Standard arithmetic operators:
 // ------------------------------
 template <typename M, typename l, typename T, typename A, typename C, typename L, typename S, typename D>
-constexpr RQuantity<M, l, T, A, C, L, S, D> 
+constexpr RQuantity<M, l, T, A, C, L, S, D>
     operator+(const RQuantity<M, l, T, A, C, L, S, D>& lhs, const RQuantity<M, l, T, A, C, L, S, D>& rhs)
 {
     return RQuantity<M, l, T, A, C, L, S, D>(lhs.getValue() + rhs.getValue());
@@ -111,65 +114,65 @@ constexpr RQuantity<M, l, T, A, C, L, S, D>
 {
     return RQuantity<M, l, T, A, C, L, S, D>(lhs.getValue() - rhs.getValue());
 }
-template <typename M1, typename l1, typename T1, typename A1, typename C1, typename L1, typename S1, typename D1, 
+template <typename M1, typename l1, typename T1, typename A1, typename C1, typename L1, typename S1, typename D1,
           typename M2, typename l2, typename T2, typename A2, typename C2, typename L2, typename S2, typename D2>
-constexpr RQuantity<std::ratio_add<M1, M2>, std::ratio_add<l1, l2>, 
+constexpr RQuantity<std::ratio_add<M1, M2>, std::ratio_add<l1, l2>,
                     std::ratio_add<T1, T2>, std::ratio_add<A1, A2>,
                     std::ratio_add<C1, C2>, std::ratio_add<L1, L2>,
                     std::ratio_add<S1, S2>, std::ratio_add<D1, D2>
-                    > 
-    operator*(const RQuantity<M1, l1, T1, A1, C1, L1, S1, D1>& lhs, 
+                    >
+    operator*(const RQuantity<M1, l1, T1, A1, C1, L1, S1, D1>& lhs,
               const RQuantity<M2, l2, T2, A2, C2, L2, S2, D2>& rhs)
 {
-    return RQuantity<std::ratio_add<M1, M2>, std::ratio_add<l1, l2>, 
+    return RQuantity<std::ratio_add<M1, M2>, std::ratio_add<l1, l2>,
                      std::ratio_add<T1, T2>, std::ratio_add<A1, A2>,
                      std::ratio_add<C1, C2>, std::ratio_add<L1, L2>,
                      std::ratio_add<S1, S2>, std::ratio_add<D1, D2>>
                     (lhs.getValue()*rhs.getValue());
 }
 template <typename M, typename l, typename T, typename A, typename C, typename L, typename S, typename D>
-constexpr RQuantity<M, l, T, A, C, L, S, D> 
+constexpr RQuantity<M, l, T, A, C, L, S, D>
     operator*(const double& lhs, const RQuantity<M, l, T, A, C, L, S, D>& rhs)
 {
     return RQuantity<M, l, T, A, C, L, S, D>(lhs*rhs.getValue());
 }
-template <typename M1, typename l1, typename T1, typename A1, typename C1, typename L1, typename S1, typename D1, 
+template <typename M1, typename l1, typename T1, typename A1, typename C1, typename L1, typename S1, typename D1,
           typename M2, typename l2, typename T2, typename A2, typename C2, typename L2, typename S2, typename D2>
 constexpr RQuantity<std::ratio_subtract<M1, M2>, std::ratio_subtract<l1, l2>,
-                    std::ratio_subtract<T1, T2>, std::ratio_subtract<A1, A2>, 
-                    std::ratio_subtract<C1, C2>, std::ratio_subtract<L1, L2>, 
-                    std::ratio_subtract<S1, S2>, std::ratio_subtract<D1, D2>> 
+                    std::ratio_subtract<T1, T2>, std::ratio_subtract<A1, A2>,
+                    std::ratio_subtract<C1, C2>, std::ratio_subtract<L1, L2>,
+                    std::ratio_subtract<S1, S2>, std::ratio_subtract<D1, D2>>
     operator/(const RQuantity<M1, l1, T1, A1, C1, L1, S1, D1>& lhs, const RQuantity<M2, l2, T2, A2, C2, L2, S2, D2>& rhs)
 {
-    return RQuantity<std::ratio_subtract<M1, M2>, std::ratio_subtract<l1, l2>, 
+    return RQuantity<std::ratio_subtract<M1, M2>, std::ratio_subtract<l1, l2>,
                      std::ratio_subtract<T1, T2>, std::ratio_subtract<A1, A2>,
-                     std::ratio_subtract<C1, C2>, std::ratio_subtract<L1, L2>, 
-                     std::ratio_subtract<S1, S2>, std::ratio_subtract<D1, D2>> 
+                     std::ratio_subtract<C1, C2>, std::ratio_subtract<L1, L2>,
+                     std::ratio_subtract<S1, S2>, std::ratio_subtract<D1, D2>>
                     (lhs.getValue() / rhs.getValue());
 }
 template <typename M, typename l, typename T, typename A, typename C, typename L, typename S, typename D>
-constexpr RQuantity<std::ratio_subtract<std::ratio<0>, M>, 
+constexpr RQuantity<std::ratio_subtract<std::ratio<0>, M>,
                     std::ratio_subtract<std::ratio<0>, l>,
-                    std::ratio_subtract<std::ratio<0>, T>, 
-                    std::ratio_subtract<std::ratio<0>, A>, 
-                    std::ratio_subtract<std::ratio<0>, C>, 
-                    std::ratio_subtract<std::ratio<0>, L>, 
-                    std::ratio_subtract<std::ratio<0>, S>, 
-                    std::ratio_subtract<std::ratio<0>, D>> 
+                    std::ratio_subtract<std::ratio<0>, T>,
+                    std::ratio_subtract<std::ratio<0>, A>,
+                    std::ratio_subtract<std::ratio<0>, C>,
+                    std::ratio_subtract<std::ratio<0>, L>,
+                    std::ratio_subtract<std::ratio<0>, S>,
+                    std::ratio_subtract<std::ratio<0>, D>>
     operator/(double x, const RQuantity<M, l, T, A, C, L, S, D>& rhs)
 {
     return RQuantity<std::ratio_subtract<std::ratio<0>, M>,
                     std::ratio_subtract<std::ratio<0>, l>,
-                    std::ratio_subtract<std::ratio<0>, T>, 
-                    std::ratio_subtract<std::ratio<0>, A>, 
-                    std::ratio_subtract<std::ratio<0>, C>, 
-                    std::ratio_subtract<std::ratio<0>, L>, 
-                    std::ratio_subtract<std::ratio<0>, S>, 
-                    std::ratio_subtract<std::ratio<0>, D>> 
+                    std::ratio_subtract<std::ratio<0>, T>,
+                    std::ratio_subtract<std::ratio<0>, A>,
+                    std::ratio_subtract<std::ratio<0>, C>,
+                    std::ratio_subtract<std::ratio<0>, L>,
+                    std::ratio_subtract<std::ratio<0>, S>,
+                    std::ratio_subtract<std::ratio<0>, D>>
                     (x / rhs.getValue());
 }
 template <typename M, typename l, typename T, typename A, typename C, typename L, typename S, typename D>
-constexpr RQuantity<M, l, T, A, C, L, S, D> 
+constexpr RQuantity<M, l, T, A, C, L, S, D>
     operator/(const RQuantity<M, l, T, A, C, L, S, D>& rhs, double x)
 {
     return RQuantity<M, l, T, A, C, L, S, D>(rhs.getValue() / x);
@@ -348,16 +351,16 @@ constexpr QLength operator"" _in(unsigned long long int  x) { return static_cast
 constexpr QSpeed operator"" _mps(long double x) { return QSpeed(x); };
 constexpr QSpeed operator"" _miph(long double x) { return static_cast<double>(x)*mile / hour; };
 constexpr QSpeed operator"" _kmph(long double x) { return static_cast<double>(x)*kilometre / hour; };
-constexpr QSpeed operator"" _mps(unsigned long long int x) 
+constexpr QSpeed operator"" _mps(unsigned long long int x)
                                 { return QSpeed(static_cast<long double>(x)); };
-constexpr QSpeed operator"" _miph(unsigned long long int x) 
+constexpr QSpeed operator"" _miph(unsigned long long int x)
                                  { return static_cast<double>(x)*mile / hour; };
-constexpr QSpeed operator"" _kmph(unsigned long long int x) 
+constexpr QSpeed operator"" _kmph(unsigned long long int x)
                                  { return static_cast<double>(x)*kilometre / hour; };
 
 // literal for frequency unit
 constexpr QFrequency operator"" _Hz(long double x) { return QFrequency(x); };
-constexpr QFrequency operator"" _Hz(unsigned long long int x) 
+constexpr QFrequency operator"" _Hz(unsigned long long int x)
                                    { return QFrequency(static_cast<long double>(x)); };
 
 // literals for time units
@@ -386,7 +389,7 @@ constexpr QMass operator"" _st(unsigned long long int x) { return static_cast<do
 
 // literals for acceleration units
 constexpr QAcceleration operator"" _mps2(long double x) { return QAcceleration(x); };
-constexpr QAcceleration operator"" _mps2(unsigned long long int x) 
+constexpr QAcceleration operator"" _mps2(unsigned long long int x)
                                         { return QAcceleration(static_cast<double>(x)); };
 constexpr QAcceleration operator"" _G(long double x) { return static_cast<double>(x)*G; };
 constexpr QAcceleration operator"" _G(unsigned long long int x) { return static_cast<double>(x)*G; }
@@ -401,7 +404,7 @@ constexpr QForce operator"" _kp(unsigned long long int x) { return static_cast<d
 
 // literals for pressure units
 constexpr QPressure operator"" _Pa(long double x) { return QPressure(x); };
-constexpr QPressure operator"" _Pa(unsigned long long int x) 
+constexpr QPressure operator"" _Pa(unsigned long long int x)
                                   { return QPressure(static_cast<double>(x)); };
 constexpr QPressure operator"" _bar(long double x) { return static_cast<double>(x)*bar; };
 constexpr QPressure operator"" _bar(unsigned long long int x) { return static_cast<double>(x)*bar; };
@@ -411,9 +414,9 @@ constexpr QPressure operator"" _psi(unsigned long long int x) { return static_ca
 
 // Angular unit literals:
 // ----------------------
-constexpr long double operator"" _pi(long double x) 
+constexpr long double operator"" _pi(long double x)
     { return static_cast<double>(x) * 3.1415926535897932384626433832795; }
-constexpr long double operator"" _pi(unsigned long long int x) 
+constexpr long double operator"" _pi(unsigned long long int x)
     { return static_cast<double>(x) * 3.1415926535897932384626433832795; }
 
 // Predefined angle units:
@@ -444,45 +447,45 @@ constexpr AngleArea operator"" _steradian(unsigned long long int x) { return Ang
 // Typesafe mathematical operations:
 // ---------------------------------
 template <typename M, typename l, typename T, typename A, typename C, typename L, typename S, typename D>
-constexpr RQuantity<std::ratio_divide<M, std::ratio<2>>, 
-                    std::ratio_divide<l, std::ratio<2>>, 
-                    std::ratio_divide<T, std::ratio<2>>, 
-                    std::ratio_divide<A, std::ratio<2>>, 
-                    std::ratio_divide<C, std::ratio<2>>, 
-                    std::ratio_divide<L, std::ratio<2>>, 
-                    std::ratio_divide<S, std::ratio<2>>, 
-                    std::ratio_divide<D, std::ratio<2>>> 
+constexpr RQuantity<std::ratio_divide<M, std::ratio<2>>,
+                    std::ratio_divide<l, std::ratio<2>>,
+                    std::ratio_divide<T, std::ratio<2>>,
+                    std::ratio_divide<A, std::ratio<2>>,
+                    std::ratio_divide<C, std::ratio<2>>,
+                    std::ratio_divide<L, std::ratio<2>>,
+                    std::ratio_divide<S, std::ratio<2>>,
+                    std::ratio_divide<D, std::ratio<2>>>
     Qsqrt(const RQuantity<M, l, T, A, C, L, S, D>& num)
 {
     return RQuantity<std::ratio_divide<M, std::ratio<2>>,
-                     std::ratio_divide<l, std::ratio<2>>, 
-                     std::ratio_divide<T, std::ratio<2>>, 
-                     std::ratio_divide<A, std::ratio<2>>, 
-                     std::ratio_divide<C, std::ratio<2>>, 
-                     std::ratio_divide<L, std::ratio<2>>, 
-                     std::ratio_divide<S, std::ratio<2>>, 
-                     std::ratio_divide<D, std::ratio<2>>> 
+                     std::ratio_divide<l, std::ratio<2>>,
+                     std::ratio_divide<T, std::ratio<2>>,
+                     std::ratio_divide<A, std::ratio<2>>,
+                     std::ratio_divide<C, std::ratio<2>>,
+                     std::ratio_divide<L, std::ratio<2>>,
+                     std::ratio_divide<S, std::ratio<2>>,
+                     std::ratio_divide<D, std::ratio<2>>>
                     (sqrt(num.getValue()));
 }
 template <typename M, typename l, typename T, typename A, typename C, typename L, typename S, typename D>
-constexpr RQuantity<std::ratio_multiply<M, std::ratio<2>>, 
-                    std::ratio_multiply<l, std::ratio<2>>, 
-                    std::ratio_multiply<T, std::ratio<2>>, 
-                    std::ratio_multiply<A, std::ratio<2>>, 
-                    std::ratio_multiply<C, std::ratio<2>>, 
-                    std::ratio_multiply<L, std::ratio<2>>, 
-                    std::ratio_multiply<S, std::ratio<2>>, 
-                    std::ratio_multiply<D, std::ratio<2>>> 
+constexpr RQuantity<std::ratio_multiply<M, std::ratio<2>>,
+                    std::ratio_multiply<l, std::ratio<2>>,
+                    std::ratio_multiply<T, std::ratio<2>>,
+                    std::ratio_multiply<A, std::ratio<2>>,
+                    std::ratio_multiply<C, std::ratio<2>>,
+                    std::ratio_multiply<L, std::ratio<2>>,
+                    std::ratio_multiply<S, std::ratio<2>>,
+                    std::ratio_multiply<D, std::ratio<2>>>
     Qsquare(const RQuantity<M, l, T, A, C, L, S, D>& num)
 {
     return RQuantity<std::ratio_multiply<M, std::ratio<2>>,
-                     std::ratio_multiply<l, std::ratio<2>>, 
-                     std::ratio_multiply<T, std::ratio<2>>, 
-                     std::ratio_multiply<A, std::ratio<2>>, 
-                     std::ratio_multiply<C, std::ratio<2>>, 
-                     std::ratio_multiply<L, std::ratio<2>>, 
-                     std::ratio_multiply<S, std::ratio<2>>, 
-                     std::ratio_multiply<D, std::ratio<2>>> 
+                     std::ratio_multiply<l, std::ratio<2>>,
+                     std::ratio_multiply<T, std::ratio<2>>,
+                     std::ratio_multiply<A, std::ratio<2>>,
+                     std::ratio_multiply<C, std::ratio<2>>,
+                     std::ratio_multiply<L, std::ratio<2>>,
+                     std::ratio_multiply<S, std::ratio<2>>,
+                     std::ratio_multiply<D, std::ratio<2>>>
                     (pow(num.getValue(), 2));
 }
 

@@ -1,5 +1,6 @@
 /**
- * a very basic example
+ * @file example.hpp
+ * @brief a very basic example
  */
 
 #include <iostream>

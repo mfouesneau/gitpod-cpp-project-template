@@ -123,5 +123,4 @@ std::cout << (45_km).to(parsec) << "\n";
 
 std::cout << (1 * lsun) << "\n";
 
-
 }
