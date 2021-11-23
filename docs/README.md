@@ -14,38 +14,22 @@ This repository holds a very basic workspace to start a C++ project and to work 
 
 ℹ️ **The rest of the README contains some notes on the template and project configuration**
 
-### Table of contents
-
-<!--ts-->
-  - [Example Code](#example-code)
-  - [Conan Package Manager](#conan-package-manager)
-    - [Installing and Configuring Conan](#installing-and-configuring-conan)
-    - [Using Conan with CMake](#using-conan-with-cmake)
-  - [Workspace configuration](#workspace-configuration)
-    - [Container image `.gitpod.Dockerfile`](#container-image-gitpoddockerfile)
-    - [Gitpod configuration `.gitpod.yml`](#gitpod-configuration-gitpodyml)
-  - [Launchers and Tasks Definitions (`.vscode/tasks.json`, `.vscode/launch.json`)](#launchers-and-tasks-definitions-vscodetasksjson-vscodelaunchjson)
-<!--te-->
-
-## TODO list
-
-* [ ] move the `main.cpp` to an `src` folder
-* [ ] add documentation creation using CMake
+[TOC]
 
 ## Example Code
 
 The example codes are basic
-```c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 #include <iostream>
 namespace example {
 	void example1(){
 	    std::cout << "Example 1 called. \n";
 	}
 };
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 But also show how to install and use external libraries with `conan`. I give the example of `xtensor` (https://github.com/xtensor-stack/xtensor)
 
-```c++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
 #include <iostream>
 #include "xtensor/xarray.hpp"
 #include "xtensor/xio.hpp"
@@ -65,7 +49,7 @@ int main() {
 
     std::cout << res;
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Conan Package Manager
 
@@ -78,12 +62,12 @@ In this project, we use Conan to manage our dependencies and build the project w
 
 I use python installation
 
-```shell
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-shell}
 > pip install conan
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You may have to look for the library you need in the [package center](https://conan.io/center/), e.g:
-```shell
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-shell}
 > conan search xtensor -r conan-center
 Existing package recipes:
 
@@ -91,36 +75,36 @@ xtensor/0.21.2
 xtensor/0.21.3
 xtensor/0.21.4
 xtensor/0.21.5
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 add your requirements to the `conanfile.txt` in the `requires` section, e.g,
-```yaml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-yaml}
 [requires]
  xtensor/0.21.5
- ```
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  ### Using Conan with CMake
 
  add `cmake` in the `generator` section to the `conanfile.txt`, e.g,
-```yaml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-yaml}
 [generators]
  cmake
- ```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Update your `CMakeLists.txt` to include the conan libraries, for instance before the targets
-```cmake
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-makefile}
 include(conanbuildinfo.cmake)
 conan_basic_setup()
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 And for the relevant targets
-```cmake
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-makefile}
 target_link_libraries(example ${CONAN_LIBS})
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Finally, you will need to run `conan install .` before `cmake`
-```shell
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-shell}
 > conan install . && cmake .
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Workspace configuration
 
@@ -146,7 +130,7 @@ Here is the minimal configuration I use, which tells Gitpod to
 * install `conan` and run the first build on start,
 * and install some C/C++ convenient extensions for VScode.
 
-```yaml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-yaml}
 image:
   file: .gitpod.Dockerfile
 
@@ -158,7 +142,7 @@ vscode:
   extensions:
     - webfreak.debug
     - ms-vscode.cmake-tools
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Launchers and Tasks Definitions (`.vscode/tasks.json`, `.vscode/launch.json`)
 
@@ -166,7 +150,7 @@ VScode based IDEs can do the everyday IDE tasks but need some primary learning c
 
 I set up this template to provide a workflow that compiles the code and runs it (with debugging options).
 * A task that compiles the main code with `CMake` and `Make`
-```json
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-json}
 {
     "label": "DEBUG: cmake && make",
     "type": "shell",
@@ -177,13 +161,13 @@ I set up this template to provide a workflow that compiles the code and runs it 
         "isDefault": true
     }
 },
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ℹ️  **Note**: `${workspaceRoot}` is the root of the workspace.
 
 :warning: **Note**: `-DCMAKE_BUILD_TYPE=Debug` is essential to make the debugger catch breakpoints etc. The cost is that the build is slower and performance lower. (I also added a task to build the _release_ version)
 
 * A launch configuration that runs the executable with `GDB` after running the task mentioned above.
-```json
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-json}
 { "type": "gdb",
   "request": "launch",
   "name": "GDB: blackbodystars",
@@ -193,7 +177,7 @@ I set up this template to provide a workflow that compiles the code and runs it 
   "valuesFormatting": "parseText",
   "preLaunchTask": "DEBUG: cmake && make"
 },
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The `CMakeLists.txt` tells where the compilation puts the `target` executable.
 
 :warning: **Note**: In VScode, the default launcher is with `cppdbg`. The associated extension (`ms-vscode.cpptools`) is not part of the open extension library (open VSX). (will it be?). Still, I also provide the corresponding launcher in the configuration file to use offline or remotely with VSCode.
@@ -211,5 +195,3 @@ It is finally time to set up API documentation for the project. It's better to s
 
 I set this up with [Doxygen](https://www.doxygen.nl/index.html).
 The official Doxygen site contains plenty of information on how to use the Doxygen syntax and to generate *.html files of documentation.
-
-⚠️ **Note**: Annoyingly, _doxygen_ does not use the GitHub markdown flavor syntax.

@@ -26,7 +26,10 @@ include(conanbuildinfo.cmake)  # Includes the contents of the conanbuildinfo.cma
 conan_basic_setup()  # Prepares the CMakeList.txt for Conan.
 
 # add local includes
-include_directories("./include")
+include_directories(
+        "${PROJECT_SOURCE_DIR}/include"
+        "${PROJECT_SOURCE_DIR}/src"
+        )
 
 # add testing libraries
 # include(CTest)
@@ -34,7 +37,8 @@ include_directories("./include")
 
 # Define executables
 # ------------------
-add_executable(blackbodystars main.cpp)
+add_executable(blackbodystars
+        ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 # Link the executables to external libraries
 # -------------------------------------------
@@ -53,3 +57,31 @@ install(TARGETS blackbodystars
 # --------------
 add_test(NAME blackbodystars
          COMMAND blackbodystars)
+
+
+# Documentation
+# first we indicate the documentation build as an option
+option(BUILD_DOC "Build documentation" ON)
+
+# check if Doxygen is installed
+find_package(Doxygen)
+if (DOXYGEN_FOUND)
+  if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
+    # set input and output files
+    set(DOXYGEN_IN ${PROJECT_SOURCE_DIR}/docs/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/doc_doxygen/Doxyfile)
+
+    # request to configure the file
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    message("Doxygen build started")
+
+    # note the option ALL which allows to build the docs together with the application
+    add_custom_target( doc_doxygen ALL
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc_doxygen
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM )
+  endif()
+else (DOXYGEN_FOUND)
+  message("Doxygen need to be installed to generate the doxygen documentation")
+endif (DOXYGEN_FOUND)

@@ -34,6 +34,8 @@
 # CMake
 CMakeLists.txt.user
 CMakeCache.txt
+CMakeDoxygen*
+CMakeDoxyfile.in
 CMakeFiles
 CMakeScripts
 Testing
@@ -48,8 +50,10 @@ _deps
 # Others
 build/*
 bin/*
+doc_doxygen/*
 .cache/*
 *.lock
 graph_info.json
 conanbuildinfo.*
 conaninfo.txt
+.DS_Store
