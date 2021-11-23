@@ -19,6 +19,7 @@ RUN apt-get update \
         libhdf5-serial-dev \
         libhdf5-103 \
         libhdf5-cpp-103 \
+    && apt-get -y install doxygen \
     && apt-get autoremove -yq \
     && rm -rf /var/lib/apt/lists/*
 RUN echo /usr/lib/x86_64-linux-gnu >> /etc/ld.so.conf

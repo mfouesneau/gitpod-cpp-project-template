@@ -195,3 +195,49 @@ It is finally time to set up API documentation for the project. It's better to s
 
 I set this up with [Doxygen](https://www.doxygen.nl/index.html).
 The official Doxygen site contains plenty of information on how to use the Doxygen syntax and to generate *.html files of documentation.
+
+
+### Some incomplete notes for documentation
+
+We document C++ code in two ways:
+1. by writing documentation blocks for all public or protected C++ components (namespaces, types, methods, functions, and constants).
+2. by commenting our code internally with C++ comments (`//` or `/* .. */`). The latter is only visible in the source.
+
+#### Documentation Blocks
+Multi-line documentation blocks must begin with `/**` and end in `*/`. 
+
+Single-line documentation blocks usually begin with `///` but rarely used for public APIs.
+Under certain circumstances, single-line documentation blocks may begin with `///<`. 
+
+Annotating parameters with inline Comments `///<` is an alternative to the `@param` tag. This style is permitted for historical reasons, but one should avoid it in new code.
+
+
+Documentation blocks must use Javadoc-style tags such as `@see` or `@param`
+
+Documentation MUST appear before the declaration it describes, and with the same indentation. See example:
+```cpp
+/**
+ * Sum numbers in a vector.
+ *
+ * @param values Container whose values are summed.
+ * @return sum of `values`, or 0.0 if `values` is empty.
+ */
+double sum(std::vector<double> & const values) {
+    ...
+}
+```
+
+`@param` should be given with the `[in]`, `[out]`, or `[in, out]` tag if the function method contains any output parameters. The `[in]` tag is optional if all parameters are input, even if other functions or methods in the same class or package use output parameters.
+
+```cpp
+/**
+ * Compute mean and standard deviation for a collection of data.
+ *
+ * @param[out] mean the mean of `data`, or `NaN` if `data` is empty
+ * @param[out] stdDev the unbiased (sample) standard deviation, or `NaN`
+ *     if `data` contains fewer than 2 elements
+ * @param[in] data the data to analyze
+ */
+void computeStatistics(double & mean, double & stdDev, std::vector<double> const & data);
+```
+
