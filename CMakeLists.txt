@@ -28,12 +28,9 @@ conan_basic_setup()  # Prepares the CMakeList.txt for Conan.
 # add local includes
 include_directories(
         "${PROJECT_SOURCE_DIR}/include"
-        "${PROJECT_SOURCE_DIR}/src"
+        # "${PROJECT_SOURCE_DIR}/src"
+        # "${PROJECT_SOURCE_DIR}/tests"
         )
-
-# add testing libraries
-# include(CTest)
-# enable_testing()
 
 # Define executables
 # ------------------
@@ -55,9 +52,18 @@ install(TARGETS blackbodystars
 
 # Tests
 # --------------
-add_test(NAME blackbodystars
-         COMMAND blackbodystars)
+# add testing libraries
+# include(CTest)
+enable_testing()
+add_executable(test_main 
+        ${PROJECT_SOURCE_DIR}/tests/test_main.cpp)
 
+target_link_libraries(test_main
+        ${blas_libraries} ${lapack_libraries}
+        ${CONAN_LIBS})
+
+add_test(NAME example_tests
+         COMMAND test_main)
 
 # Documentation
 # first we indicate the documentation build as an option

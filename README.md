@@ -253,3 +253,45 @@ double sum(std::vector<double> & const values) {
 void computeStatistics(double & mean, double & stdDev, std::vector<double> const & data);
 ```
 
+## Unittests
+
+If you are not familiar with the concept of unit testing, the basic principle is to write small pieces of code that tests every new piece of functionality in your project.
+
+It is very useful to have such unit tests, because any development or changes in your code can be tested against expected results. If something does not match, you will know rapidly.
+
+I decided to provide a template for one's own testing frameworl and CMake:
+* Use [`CTest`](https://cmake.org/cmake/help/latest/manual/ctest.1.html), the testing framework of CMake. This framework is rather simple and just uses the return type of a unit test program to decide whether the test worked correctly.
+* Provide a set of routines to check the correctness of certain calculations within a unit test, throwing an error if something unexpected happened.
+* Add the compilations of the test codes to `CMakeLists.txt`.
+
+In practice, the test fails when throwing an error (the unit test program crashed).
+
+First one need to update `CMakeLists.txt` to include the testing library.
+
+```CMake
+ENABLE_TESTING()
+```
+
+Adding a test becomes creating a source code into the `tests` folder and updating the `CMakeLists.txt` for something like
+```CMake
+ADD_EXECUTABLE( test_xtensor test_xtensor.cpp)
+TARGET_LINK_LIBRARIES(test_xtensor
+        ${blas_libraries} ${lapack_libraries}
+        ${CONAN_LIBS})
+ADD_TEST(io_xtensor test_xtensor)
+```
+
+By setting `ENABLE_TESTING()`, CMake actually creates a new target called `test`. Hence, to run those tests, `make test` from the build directory is sufficient.
+```shell
+Running tests...
+Test project /workspace/gitpod-cpp-project-template
+    Start 1: example_tests
+1/1 Test #1: example_tests ....................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+```
+> this unit test can then be part of a Travis CI or GitHub actions workflow.
+
+
