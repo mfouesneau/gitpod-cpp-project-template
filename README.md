@@ -22,9 +22,9 @@ This repository holds a very basic workspace to start a C++ project and to work 
     - [Installing and Configuring Conan](#installing-and-configuring-conan)
     - [Using Conan with CMake](#using-conan-with-cmake)
   - [Workspace configuration](#workspace-configuration)
-    - [Container image `.gitpod.Dockerfile`](#container-image-gitpod-dockerfile)
-    - [Gitpod configuration `.gitpod.yml`](#gitpod-configuration-gitpod-yml)
-  - [Launchers and Tasks Definitions (`.vscode/tasks.json`, `.vscode/launch.json`)](#launchers-and-tasks-definitions-vscode-tasks-json-vscode-launch-json)
+    - [Container image `.gitpod.Dockerfile`](#container-image-gitpoddockerfile)
+    - [Gitpod configuration `.gitpod.yml`](#gitpod-configuration-gitpodyml)
+  - [Launchers and Tasks Definitions (`.vscode/tasks.json`, `.vscode/launch.json`)](#launchers-and-tasks-definitions-vscodetasksjson-vscodelaunchjson)
 <!--te-->
 
 ## Example Code
