@@ -205,7 +205,7 @@ It is finally time to set up API documentation for the project. It's better to s
 
 
 I set this up with [Doxygen](https://www.doxygen.nl/index.html).
-The official Doxygen site contains plenty of information on how to use the Doxygen syntax and to generate *.html files of documentation.
+The official Doxygen site contains plenty of information on using the Doxygen syntax and generating *.html files of documentation.
 
 ⚠️ **Note**: Annoyingly, _doxygen_ does not use the GitHub markdown flavor syntax.
 
@@ -218,15 +218,15 @@ We document C++ code in two ways:
 #### Documentation Blocks
 Multi-line documentation blocks must begin with `/**` and end in `*/`.
 
-Single-line documentation blocks usually begin with `///` but rarely used for public APIs.
+Single-line documentation blocks usually begin with `///` but are rarely used for public APIs.
 Under certain circumstances, single-line documentation blocks may begin with `///<`.
 
-Annotating parameters with inline Comments `///<` is an alternative to the `@param` tag. This style is permitted for historical reasons, but one should avoid it in new code.
+Annotating parameters with inline Comments `///<` is an alternative to the `@param` tag. This style is permitted for historical reasons, but one should avoid it in new codes.
 
 
 Documentation blocks must use Javadoc-style tags such as `@see` or `@param`
 
-Documentation MUST appear before the declaration it describes, and with the same indentation. See example:
+The documentation MUST appear before the declaration it describes and with the same indentation. See example:
 ```cpp
 /**
  * Sum numbers in a vector.

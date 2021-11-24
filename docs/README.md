@@ -4,7 +4,7 @@ A template project for C++ development using [CMake](https://cmake.org/) and [Co
 
 ## Gitpod
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mfouesneau/blackbodystars)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mfouesneau/gitpod-cpp-project-template)
 
 
 Gitpod is a friendly online IDE very similar to VSCode ([Gitpod.io](https://gitpod.io/)
@@ -66,7 +66,7 @@ I use python installation
 > pip install conan
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You may have to look for the library you need in the [package center](https://conan.io/center/), e.g:
+You may have to look for the library you need in the [package center](https://conan.io/center/), e.g.:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-shell}
 > conan search xtensor -r conan-center
 Existing package recipes:
@@ -77,7 +77,7 @@ xtensor/0.21.4
 xtensor/0.21.5
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-add your requirements to the `conanfile.txt` in the `requires` section, e.g,
+add your requirements to the `conanfile.txt` in the `requires` section, e.g.,
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-yaml}
 [requires]
  xtensor/0.21.5
@@ -120,7 +120,7 @@ This default image comes pre-installed with Docker, Go, Java, Node.js, C/C++, Py
 If this image does not include the tools you need for your project, you can provide a public Docker image or your Dockerfile.
 Using this technique provides us with the flexibility to install the tools & libraries required for your project.
 
-> This template starts with this image as it will make sure that the platform works (sometimes new Debian images introduce breaking changes; see documentation), and installs the HDF5 library.
+> This template starts with this image as it will make sure that the platform works (sometimes new Debian images introduce breaking changes; see documentation) and installs the HDF5 library.
 
 
 ### Gitpod configuration `.gitpod.yml`
@@ -194,8 +194,9 @@ It is finally time to set up API documentation for the project. It's better to s
 
 
 I set this up with [Doxygen](https://www.doxygen.nl/index.html).
-The official Doxygen site contains plenty of information on how to use the Doxygen syntax and to generate *.html files of documentation.
+The official Doxygen site contains plenty of information on using the Doxygen syntax and generating *.html files of documentation.
 
+⚠️ **Note**: Annoyingly, _doxygen_ does not use the GitHub markdown flavor syntax.
 
 ### Some incomplete notes for documentation
 
@@ -204,18 +205,18 @@ We document C++ code in two ways:
 2. by commenting our code internally with C++ comments (`//` or `/* .. */`). The latter is only visible in the source.
 
 #### Documentation Blocks
-Multi-line documentation blocks must begin with `/**` and end in `*/`. 
+Multi-line documentation blocks must begin with `/**` and end in `*/`.
 
-Single-line documentation blocks usually begin with `///` but rarely used for public APIs.
-Under certain circumstances, single-line documentation blocks may begin with `///<`. 
+Single-line documentation blocks usually begin with `///` but are rarely used for public APIs.
+Under certain circumstances, single-line documentation blocks may begin with `///<`.
 
-Annotating parameters with inline Comments `///<` is an alternative to the `@param` tag. This style is permitted for historical reasons, but one should avoid it in new code.
+Annotating parameters with inline Comments `///<` is an alternative to the `@param` tag. This style is permitted for historical reasons, but one should avoid it in new codes.
 
 
 Documentation blocks must use Javadoc-style tags such as `@see` or `@param`
 
-Documentation MUST appear before the declaration it describes, and with the same indentation. See example:
-```cpp
+The documentation MUST appear before the declaration it describes and with the same indentation. See example:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{cpp}
 /**
  * Sum numbers in a vector.
  *
@@ -225,11 +226,11 @@ Documentation MUST appear before the declaration it describes, and with the same
 double sum(std::vector<double> & const values) {
     ...
 }
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `@param` should be given with the `[in]`, `[out]`, or `[in, out]` tag if the function method contains any output parameters. The `[in]` tag is optional if all parameters are input, even if other functions or methods in the same class or package use output parameters.
 
-```cpp
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{cpp}
 /**
  * Compute mean and standard deviation for a collection of data.
  *
@@ -239,5 +240,45 @@ double sum(std::vector<double> & const values) {
  * @param[in] data the data to analyze
  */
 void computeStatistics(double & mean, double & stdDev, std::vector<double> const & data);
-```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+## Unittests
+
+If you are not familiar with the concept of unit testing, the basic principle is to write small pieces of code that tests every new piece of functionality in your project.
+
+It is very useful to have such unit tests, because any development or changes in your code can be tested against expected results. If something does not match, you will know rapidly.
+
+I decided to provide a template for one's own testing frameworl and CMake:
+* Use [`CTest`](https://cmake.org/cmake/help/latest/manual/ctest.1.html), the testing framework of CMake. This framework is rather simple and just uses the return type of a unit test program to decide whether the test worked correctly.
+* Provide a set of routines to check the correctness of certain calculations within a unit test, throwing an error if something unexpected happened.
+* Add the compilations of the test codes to `CMakeLists.txt`.
+
+In practice, the test fails when throwing an error (the unit test program crashed).
+
+First one need to update `CMakeLists.txt` to include the testing library.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-cmake}
+ENABLE_TESTING()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adding a test becomes creating a source code into the `tests` folder and updating the `CMakeLists.txt` for something like
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-cmake}
+ADD_EXECUTABLE( test_xtensor test_xtensor.cpp)
+TARGET_LINK_LIBRARIES(test_xtensor
+        ${blas_libraries} ${lapack_libraries}
+        ${CONAN_LIBS})
+ADD_TEST(io_xtensor test_xtensor)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By setting `ENABLE_TESTING()`, CMake actually creates a new target called `test`. Hence, to run those tests, `make test` from the build directory is sufficient.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~{lang-shell}
+Running tests...
+Test project /workspace/gitpod-cpp-project-template
+    Start 1: example_tests
+1/1 Test #1: example_tests ....................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> this unit test can then be part of a Travis CI or GitHub actions workflow.
