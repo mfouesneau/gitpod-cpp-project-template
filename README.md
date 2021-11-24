@@ -77,7 +77,7 @@ I use python installation
 > pip install conan
 ```
 
-You may have to look for the library you need in the [package center](https://conan.io/center/), e.g:
+You may have to look for the library you need in the [package center](https://conan.io/center/), e.g.:
 ```shell
 > conan search xtensor -r conan-center
 Existing package recipes:
@@ -88,7 +88,7 @@ xtensor/0.21.4
 xtensor/0.21.5
 ```
 
-add your requirements to the `conanfile.txt` in the `requires` section, e.g,
+add your requirements to the `conanfile.txt` in the `requires` section, e.g.,
 ```yaml
 [requires]
  xtensor/0.21.5
@@ -131,7 +131,7 @@ This default image comes pre-installed with Docker, Go, Java, Node.js, C/C++, Py
 If this image does not include the tools you need for your project, you can provide a public Docker image or your Dockerfile.
 Using this technique provides us with the flexibility to install the tools & libraries required for your project.
 
-> This template starts with this image as it will make sure that the platform works (sometimes new Debian images introduce breaking changes; see documentation), and installs the HDF5 library.
+> This template starts with this image as it will make sure that the platform works (sometimes new Debian images introduce breaking changes; see documentation) and installs the HDF5 library.
 
 
 ### Gitpod configuration `.gitpod.yml`
@@ -216,10 +216,10 @@ We document C++ code in two ways:
 2. by commenting our code internally with C++ comments (`//` or `/* .. */`). The latter is only visible in the source.
 
 #### Documentation Blocks
-Multi-line documentation blocks must begin with `/**` and end in `*/`. 
+Multi-line documentation blocks must begin with `/**` and end in `*/`.
 
 Single-line documentation blocks usually begin with `///` but rarely used for public APIs.
-Under certain circumstances, single-line documentation blocks may begin with `///<`. 
+Under certain circumstances, single-line documentation blocks may begin with `///<`.
 
 Annotating parameters with inline Comments `///<` is an alternative to the `@param` tag. This style is permitted for historical reasons, but one should avoid it in new code.
 
@@ -293,5 +293,3 @@ Test project /workspace/gitpod-cpp-project-template
 Total Test time (real) =   0.00 sec
 ```
 > this unit test can then be part of a Travis CI or GitHub actions workflow.
-
-
