@@ -3,7 +3,7 @@ image:
 
 tasks:
   - init: "pip install conan"
-  - command: "conan install . && cmake ."
+  - command: "conan install . && cmake -DCMAKE_BUILD_TYPE=release . && make"
 
 vscode:
   extensions:
