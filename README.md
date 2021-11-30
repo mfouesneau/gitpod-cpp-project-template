@@ -25,6 +25,7 @@ This repository holds a very basic workspace to start a C++ project and to work 
     - [Container image `.gitpod.Dockerfile`](#container-image-gitpoddockerfile)
     - [Gitpod configuration `.gitpod.yml`](#gitpod-configuration-gitpodyml)
   - [Launchers and Tasks Definitions (`.vscode/tasks.json`, `.vscode/launch.json`)](#launchers-and-tasks-definitions-vscodetasksjson-vscodelaunchjson)
+  - [GitHub Actions CI/CD](#)
 <!--te-->
 
 ## Example Code
@@ -293,3 +294,11 @@ Test project /workspace/gitpod-cpp-project-template
 Total Test time (real) =   0.00 sec
 ```
 > this unit test can then be part of a Travis CI or GitHub actions workflow.
+
+
+## GitHub Actions CI/CD
+
+This repository sets already some default actions to help the project development (see `.github/workflows/workflow.yml`)
+
+ - The `Build` job will take the current CMake configuration and run the build in `Release` mode and the unittests (`ctest`)
+ - The `Documentation` job, uses the preconfigured Doxygen settings to generate the HTML API documentation. (One can extend this job to pubish on `gh-pages` branch)
