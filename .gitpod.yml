@@ -9,3 +9,4 @@ vscode:
   extensions:
     - webfreak.debug
     - ms-vscode.cmake-tools
+    - twxs.cmake
