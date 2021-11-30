@@ -27,9 +27,10 @@ jobs:
   
   Build:
     runs-on: ubuntu-latest
+    needs: setup
 
     steps:
-    - uses: octo-org/this-repo/.github/workflows/workflow.yml@setup
+    - uses: setup@v1
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
@@ -39,7 +40,7 @@ jobs:
     needs: Build
 
     steps:
-    - uses: octo-org/this-repo/.github/workflows/workflow.yml@Build
+    - uses: Build@v1
     - name: Test
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.  
@@ -51,7 +52,7 @@ jobs:
     needs: Build
 
     steps:
-    - uses: octo-org/this-repo/.github/workflows/workflow.yml@Build
+    - uses: Build@v1
     - name: doxygen
       working-directory: ${{github.workspace}}/build
       # Execute tests defined by the CMake configuration.  
